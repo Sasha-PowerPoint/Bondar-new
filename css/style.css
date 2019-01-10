@@ -6,4 +6,9 @@
   .count-form input {
     margin-bottom: 4px; }
 
+.calculate {
+  position: absolute;
+  left: 0px;
+  top: 70px; }
+
 /*# sourceMappingURL=style.css.map */

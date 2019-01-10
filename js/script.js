@@ -1,12 +1,24 @@
-/*var ctx = setupCanvas(document.querySelector("canvas"));
+$(document).ready(function(){
+    $(".calculate").fadeOut(100);
+    $(".base").fadeOut(100);
+});
+
+
+var ctx = setupCanvas(document.getElementById("canvas"));
 var ctx = canvas.getContext("2d");
-ctx.fillStyle = "#000000";
-ctx.fillRect($(window).width() / 4, $(window).height() / 4, 2, 2);
-ctx.lineWidth = 3;*/
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, document.getElementById("canvas").width, document.getElementById("canvas").height);
+ctx.lineWidth = 3;
+$('#canvas').css("height", "200px");
+$('#canvas').css("width", "500px");
+var center = {
+    width: document.getElementById("canvas").width,
+    height: document.getElementById("canvas").height/2
+};
 
 var data = {};
 var base = {};
-var koef =350;
+var koef =250;
 var db_got =[
     {
         name: "Антонов",
@@ -80,16 +92,16 @@ function Calculate() {
     data.R = (data.De - data.Dmin) / 8;
     data.TgBx = (Math.pow(data.Ddv, 2) - Math.pow(data.dv, 2)) / (2 * data.Ddv * data.Lop);
     data.F2 = (Math.PI / 4) * (Math.pow(data.Ddv, 2) - 4 * Math.pow(Yop2(0), 2));
-    console.log(base);
+    console.log(data);
 
-   /* Yv();
+    Yv();
     Yv2();
     Yop();
     Yvnesh();
     Yvi1();
     Yop2_draw();
     Radius();
-    DrawDesc();*/
+    DrawDesc();
 };
 
 
@@ -360,22 +372,38 @@ document.getElementById('calculate').addEventListener("click",function() {
     $(".base").fadeOut(100);
 });
 
+document.getElementById("count").addEventListener("click",function(){
+    data.name = $("#name_of_engine").val();
+    data.Vh = parseFloat($("#vh").val())/3;
+    data.H = parseFloat($("#h").val());
+    data.Dv = parseFloat($("#dv").val());
+    data.dv = parseFloat($("#dv2").val());
+    data.Lv = parseFloat($("#lv").val());
+    data.Lv2 = parseFloat($("#lv2").val());
+    data.Lop = parseFloat($("#lop").val());
+    data.Ddv = parseFloat($("#ddv").val());
+    data.Lukl = parseFloat($("#lukl").val());
+    data.DeltaL = parseFloat($("#deltal").val());
+    data.Gv = parseFloat($("#gv").val());
+    Calculate();
+});
+
 $(".nav-link").click(function(){
     $(".nav-link").removeClass("active");
     $(this).addClass("active");
 })
-/*function setupCanvas(canvas) {
+function setupCanvas(canvas) {
     // Get the device pixel ratio, falling back to 1.
     var dpr = window.devicePixelRatio || 1;
     // Get the size of the canvas in CSS pixels.
     var rect = canvas.getBoundingClientRect();
     // Give the canvas pixel dimensions of their CSS
     // size * the device pixel ratio.
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    canvas.width = 500;
+    canvas.height = 300;
     var ctx = canvas.getContext('2d');
     // Scale all drawing operations by the dpr, so you
     // don't have to worry about the difference.
     ctx.scale(dpr, dpr);
     return ctx;
-}*/
+}
