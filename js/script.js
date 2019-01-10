@@ -23,13 +23,31 @@ var db_got =[
 ];
 
 function ServeBlocksFromDatabase(){
-    fetch("test.txt")
+    fetch("getBase_new.php")
         .then(function(res){
-            return res.text();
+            return res.json();
         })
         .then(function(res){
-            console.log(res);
+            var fullTemplate = '';
+            for(var obj in res){
+                fullTemplate += CompleteBlock(res[obj].name, res[obj].data);
+            }
+
+            document.getElementById('base_list').innerHTML = fullTemplate;
+            console.log(fullTemplate);
         });
+
+    function CompleteBlock(name, data){
+        var template = "<div class='card text-white bg-primary mb-3' style='max-width: 20rem;'>" +
+            "            <div class='card-header'>" + name + "</div>" +
+            "            <div class='card-body'>" +
+            "                <p class='card-text'>"+ data +"</p>" +
+            "            </div>" +
+            "        </div>"
+        return template;
+
+    }
+
 }
 function Calculate() {
     data.V_e = 2;
@@ -329,10 +347,23 @@ function Yvi1() {
     }
 }
 
+// Event listeners
+
 document.getElementById('base').addEventListener("click",function() {
+    $(".calculate").fadeOut(100);
+    $(".base").fadeIn(100);
     ServeBlocksFromDatabase();
 });
 
+document.getElementById('calculate').addEventListener("click",function() {
+    $(".calculate").fadeIn(100);
+    $(".base").fadeOut(100);
+});
+
+$(".nav-link").click(function(){
+    $(".nav-link").removeClass("active");
+    $(this).addClass("active");
+})
 /*function setupCanvas(canvas) {
     // Get the device pixel ratio, falling back to 1.
     var dpr = window.devicePixelRatio || 1;
