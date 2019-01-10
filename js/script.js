@@ -1,15 +1,10 @@
-$(document).ready(function(){
-    $(".calculate").fadeOut(100);
-    $(".base").fadeOut(100);
-});
-
 
 var ctx = setupCanvas(document.getElementById("canvas"));
 var ctx = canvas.getContext("2d");
 ctx.fillStyle = "white";
 ctx.fillRect(0, 0, document.getElementById("canvas").width, document.getElementById("canvas").height);
 ctx.lineWidth = 3;
-$('#canvas').css("height", "200px");
+$('#canvas').css("height", "300px");
 $('#canvas').css("width", "500px");
 var center = {
     width: document.getElementById("canvas").width,
@@ -19,20 +14,24 @@ var center = {
 var data = {};
 var base = {};
 var koef =250;
-var db_got =[
-    {
-        name: "Антонов",
-        data: "V=xt"
-    },
-    {
-        name: "МоторСіч",
-        data: "ппопооп"
-    },
-    {
-        name: "Луч йобаний",
-        data: "кардан"
-    },
-];
+var db_got =[];
+
+/*, */
+function SetDataToDatabase(name){
+    fetch("getBase_new.php",{
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)})
+        .then(function(){
+            db_got[name] = {};
+            db_got[name] = data;
+            console.log("Після додавання");
+            console.log(db_got);
+        });
+};
 
 function ServeBlocksFromDatabase(){
     fetch("getBase_new.php")
@@ -40,20 +39,33 @@ function ServeBlocksFromDatabase(){
             return res.json();
         })
         .then(function(res){
+            //db_got = res;
+            console.log("Після додавання");
+            console.log(db_got);
             var fullTemplate = '';
-            for(var obj in res){
-                fullTemplate += CompleteBlock(res[obj].name, res[obj].data);
+            for(var obj in db_got){
+                fullTemplate += CompleteBlock(obj, db_got[obj]);
             }
-
             document.getElementById('base_list').innerHTML = fullTemplate;
-            console.log(fullTemplate);
+
+            $(".card").click(function(){
+                console.log("Перезапис");
+                console.log(data);
+                console.log("---------");
+                data = db_got[this.dataset.name];
+                console.log(data);
+                console.log("---------");
+            });
+            console.log(db_got);
         });
 
     function CompleteBlock(name, data){
-        var template = "<div class='card text-white bg-primary mb-3' style='max-width: 20rem;'>" +
+        var template = "<div class='card text-white bg-primary mb-3' data-name='"+ name +"' style='max-width: 20rem;'>" +
             "            <div class='card-header'>" + name + "</div>" +
             "            <div class='card-body'>" +
-            "                <p class='card-text'>"+ data +"</p>" +
+            "                <p class='card-text'>Vh = "+ data.Vh +"</p>" +
+            "                <p class='card-text'>H = "+ data.H +"</p>" +
+            "                <p class='card-text'>Dv = "+ data.Dv +"</p>" +
             "            </div>" +
             "        </div>"
         return template;
@@ -386,6 +398,7 @@ document.getElementById("count").addEventListener("click",function(){
     data.DeltaL = parseFloat($("#deltal").val());
     data.Gv = parseFloat($("#gv").val());
     Calculate();
+    SetDataToDatabase(data.name);
 });
 
 $(".nav-link").click(function(){
