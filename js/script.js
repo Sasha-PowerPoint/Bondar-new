@@ -28,7 +28,7 @@ function SetDataToDatabase(name){
         .then(function(){
             db_got[name] = {};
             db_got[name] = data;
-            console.log("Після додавання");
+            console.log("Після додавання db_got");
             console.log(db_got);
         });
 };
@@ -40,7 +40,7 @@ function ServeBlocksFromDatabase(){
         })
         .then(function(res){
             //db_got = res;
-            console.log("Після додавання");
+            console.log("Після додавання db_got");
             console.log(db_got);
             var fullTemplate = '';
             for(var obj in db_got){
@@ -49,10 +49,14 @@ function ServeBlocksFromDatabase(){
             document.getElementById('base_list').innerHTML = fullTemplate;
 
             $(".card").click(function(){
-                console.log("Перезапис");
+                console.log("Перезапис data");
                 console.log(data);
                 console.log("---------");
-                data = db_got[this.dataset.name];
+                for(var objct in res) {
+                    data[objct] = db_got[this.dataset.name][objct];
+                }
+                console.log(this.dataset.name);
+                console.log("---------");
                 console.log(data);
                 console.log("---------");
             });
