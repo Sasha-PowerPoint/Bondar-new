@@ -1,4 +1,6 @@
 <?php
+header("location: main.html");
+/*
 if(isset($_POST['submit'])) {
     $name = $_POST['name'];
 $pass = $_POST['password'];
@@ -16,12 +18,15 @@ if($count != 0)
     $user = $queryget->fetch();
     setcookie("user", $user['username']);
     setcookie("password", $user['password']);
+
     header("location: main.php");
+
     }
     else {
         echo "Invalid data";
     }
 }
+    */
 ?>
 <!doctype html>
 <html lang="en">
