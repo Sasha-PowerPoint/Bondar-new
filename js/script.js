@@ -27,8 +27,10 @@ function SetDataToDatabase(name){
         },
         body: JSON.stringify(data)})
         .then(function(result){
-            db_got[name] = data;
-            console.log(result);
+            return result.text();
+        })
+        .then(function(res){
+            console.log(res);
         });
 };
 
