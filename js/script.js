@@ -18,18 +18,17 @@ var db_got =[];
 
 /*, */
 function SetDataToDatabase(name){
-    fetch("getBase_new.php",{
+    fetch("saveItem.php",{
         method: 'POST',
+        credentials: 'same-origin',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)})
-        .then(function(){
-            db_got[name] = {};
+        .then(function(result){
             db_got[name] = data;
-            console.log("Після додавання db_got");
-            console.log(db_got);
+            console.log(result);
         });
 };
 
@@ -39,28 +38,16 @@ function ServeBlocksFromDatabase(){
             return res.json();
         })
         .then(function(res){
-            //db_got = res;
-            console.log("Після додавання db_got");
-            console.log(db_got);
+            db_got = res;
             var fullTemplate = '';
-            for(var obj in db_got){
-                fullTemplate += CompleteBlock(obj, db_got[obj]);
+            for(var obj in res){
+                fullTemplate += CompleteBlock(obj, res[obj]);
             }
             document.getElementById('base_list').innerHTML = fullTemplate;
 
             $(".card").click(function(){
-                console.log("Перезапис data");
-                console.log(data);
-                console.log("---------");
-                for(var objct in res) {
-                    data[objct] = db_got[this.dataset.name][objct];
-                }
-                console.log(this.dataset.name);
-                console.log("---------");
-                console.log(data);
-                console.log("---------");
+                alert(this.dataset.name);
             });
-            console.log(db_got);
         });
 
     function CompleteBlock(name, data){
