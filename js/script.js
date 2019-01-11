@@ -32,6 +32,8 @@ function SetDataToDatabase(name){
         .then(function(res){
             console.log(res);
         });
+
+    
 };
 
 function ServeBlocksFromDatabase(){
