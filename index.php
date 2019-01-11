@@ -1,4 +1,6 @@
 <?php
+header("location: main.html");
+/*
 if(isset($_POST['submit'])) {
     $name = $_POST['name'];
 $pass = $_POST['password'];
@@ -22,6 +24,7 @@ if($count != 0)
         echo "Invalid data";
     }
 }
+*/
 ?>
 <!doctype html>
 <html lang="en">
